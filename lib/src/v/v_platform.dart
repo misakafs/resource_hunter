@@ -5,11 +5,11 @@ import 'handler.dart';
 /// 视频平台
 /// 防止敏感数据被直接检索，对数据进行Base64编码
 class VPlatform {
-  /// platform key;
-  final String key;
-
-  /// platform name
+  /// platform name;
   final String name;
+
+  /// platform label
+  final String label;
 
   /// platform official website url
   final String site;
@@ -17,8 +17,11 @@ class VPlatform {
   /// platform tabs
   final List<VTab> tabs;
 
+  /// 查看器
+  final VideoViewer? viewer;
+
   /// 查询器
-  final VideoQueryer? queryer;
+  final VideoQuerier? querier;
 
   /// 搜索器
   final VideoSearcher? searcher;
@@ -28,24 +31,34 @@ class VPlatform {
 
   ///
   factory VPlatform(
-    String key,
     String name,
+    String label,
     String site,
     List<VTab> tabs,
-    String queryerName,
+    String viewerName,
+    String querierName,
     String searcherName,
     String parserName,
   ) {
-    final queryer = videoQueryers[Utils.base64decode(queryerName)];
+    final viewer = videoViewers[Utils.base64decode(viewerName)];
+    final querier = videoQueriers[Utils.base64decode(querierName)];
     final searcher = videoSearchers[Utils.base64decode(searcherName)];
     final parser = videoParsers[Utils.base64decode(parserName)];
 
+    tabs = tabs
+        .map((value) => VTab(
+              Utils.base64decode(value.name),
+              Utils.base64decode(value.label),
+            ))
+        .toList();
+
     return VPlatform._internal(
-      Utils.base64decode(key),
       Utils.base64decode(name),
+      Utils.base64decode(label),
       Utils.base64decode(site),
       tabs,
-      queryer,
+      viewer,
+      querier,
       searcher,
       parser,
     );
@@ -53,11 +66,12 @@ class VPlatform {
 
   // 私有命名构造方法，用于创建实例
   VPlatform._internal(
-    this.key,
     this.name,
+    this.label,
     this.site,
     this.tabs,
-    this.queryer,
+    this.viewer,
+    this.querier,
     this.searcher,
     this.parser,
   );
@@ -67,8 +81,8 @@ class VPlatform {
 
   ///
   Map<String, dynamic> toJson() => {
-        "key": key,
         "name": name,
+        "label": label,
         "site": site,
         "tabs": tabs,
       };
@@ -76,21 +90,21 @@ class VPlatform {
 
 ///
 class VTab {
-  /// tab key
-  final String key;
-
   /// tab name
   final String name;
 
+  /// tab label
+  final String label;
+
   ///
   const VTab(
-    this.key,
     this.name,
+    this.label,
   );
 
   ///
   Map<String, dynamic> toJson() => {
-        "key": key,
         "name": name,
+        "label": label,
       };
 }

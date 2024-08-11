@@ -12,6 +12,6 @@ class ResourceHunterException implements Exception {
   @override
   String toString() {
     // 返回错误消息和堆栈跟踪
-    return 'ResourceHunterException: $message\nStack Trace:\n$stackTrace';
+    return '[ResourceHunterException] $message\nStack Trace:\n$stackTrace';
   }
 }

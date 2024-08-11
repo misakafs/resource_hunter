@@ -2,18 +2,14 @@
 abstract class VideoParser {
   ///
   Future<VideoParseResult> parse(VideoParseParam param);
-
-  /// 获取解析资源的唯一ID
-  /// 可以用于缓存使用
-  String getVid(VideoParseParam param);
 }
 
 /// 解析参数
 class VideoParseParam {
-  ///
+  /// 平台name
   String platform;
 
-  ///
+  /// 需要解析的链接
   String link;
 
   /// 用户代理，
@@ -21,6 +17,13 @@ class VideoParseParam {
 
   ///
   VideoParseParam(this.platform, this.link, [this.userAgent]);
+
+  ///
+  Map<String, dynamic> toJson() => {
+        "platform": platform,
+        "link": link,
+        "userAgent": userAgent,
+      };
 }
 
 /// 解析后的结果
@@ -29,22 +32,19 @@ class VideoParseResult {
   String platform;
 
   /// video unique id
-  String vid;
-
-  /// raw link
-  String raw;
-
-  /// video cover
-  String cover;
+  String pid;
 
   /// video title
   String title;
 
-  /// video labels
-  List<String> labels;
-
   /// video info
   String info;
+
+  /// raw link
+  String link;
+
+  /// video cover
+  String cover;
 
   /// video real link
   String url;
@@ -53,39 +53,32 @@ class VideoParseResult {
   /// 永久可以进行缓存
   int disposable;
 
-  /// 剧集 [[name, url]]
-  List<List<String>> episodes;
-
-  /// 解析的结果: 0 - 不能解析; 1 - 解析成功
+  /// 解析的结果: 0 - 未解析; 1 - 不能解析; 2 - 解析成功
   int status;
 
   ///
   VideoParseResult({
     this.platform = '',
-    this.vid = '',
+    this.pid = '',
     this.title = '',
     this.info = '',
-    this.raw = '',
-    this.url = '',
+    this.link = '',
     this.cover = '',
-    this.labels = const [],
+    this.url = '',
     this.disposable = 0,
-    this.episodes = const [],
     this.status = 0,
   });
 
   ///
   Map<String, dynamic> toJson() => {
         "platform": platform,
-        "vid": vid,
+        "pid": pid,
         "title": title,
         "info": info,
-        "raw": raw,
-        "url": url,
+        "link": link,
         "cover": cover,
-        "labels": labels.map((x) => x).toList(),
+        "url": url,
         "disposable": disposable,
-        "episodes": episodes.map((x) => x.map((x) => x).toList()).toList(),
         "status": status,
       };
 }

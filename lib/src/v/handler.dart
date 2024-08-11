@@ -1,20 +1,33 @@
 import 'package:resource_hunter/src/v/parse/general_parser.dart';
 import 'package:resource_hunter/src/v/parse/parser.dart';
-import 'package:resource_hunter/src/v/query/queryer.dart';
+import 'package:resource_hunter/src/v/query/qq_querier.dart';
+import 'package:resource_hunter/src/v/query/querier.dart';
+import 'package:resource_hunter/src/v/search/qq_searcher.dart';
 import 'package:resource_hunter/src/v/search/searcher.dart';
+import 'package:resource_hunter/src/v/view/qq_viewer.dart';
+import 'package:resource_hunter/src/v/view/viewer.dart';
 
 export 'parse/parser.dart' show VideoParser;
-export 'query/queryer.dart' show VideoQueryer;
+export 'query/querier.dart' show VideoQuerier;
 export 'search/searcher.dart' show VideoSearcher;
+export 'view/viewer.dart' show VideoViewer;
 
-///
+/// 解析器
 final Map<String, VideoParser> videoParsers = {
-  'general': const GeneralParser(),
-  'general2': const GeneralParser(true),
+  'general': GeneralParser(),
 };
 
-///
-final Map<String, VideoQueryer> videoQueryers = {};
+/// 查询器
+final Map<String, VideoQuerier> videoQueriers = {
+  'qq': QqVideoQuerier(),
+};
 
-///
-final Map<String, VideoSearcher> videoSearchers = {};
+/// 搜索器
+final Map<String, VideoSearcher> videoSearchers = {
+  'qq': QqSearcher(),
+};
+
+/// 查看器
+final Map<String, VideoViewer> videoViewers = {
+  'qq': QqViewer(),
+};

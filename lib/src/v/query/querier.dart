@@ -1,65 +1,52 @@
-/// 搜索列表接口
-abstract class VideoSearcher {
+/// 查询列表接口
+abstract class VideoQuerier {
   ///
-  Future<VideoSearchResult> search(VideoSearchParam param);
+  Future<VideoQueryResult> query(VideoQueryParam param);
 }
 
 ///
-class VideoSearchParam {
-  /// 每页条数
-  int size = 10;
-
-  /// 当前页, 0 是第一页
-  int current = 0;
+class VideoQueryParam {
+  /// 下一页参数 base64
+  String next = '';
 
   /// 平台
   String platform = '';
 
-  /// 搜索关键字
-  String keyword = '';
+  /// 频道
+  String channel = '';
 
   ///
   String? userAgent;
 
-  /// VideoSearchParam
-  VideoSearchParam({
-    this.current = 0,
-    this.platform = '',
-    this.keyword = '',
-    this.userAgent = '',
-  });
-
   ///
-  Map<String, dynamic> toJson() => {
-        "platform": platform,
-        "keyword": keyword,
-        "userAgent": userAgent,
-      };
+  VideoQueryParam({
+    this.next = '',
+    this.platform = '',
+    this.channel = '',
+    this.userAgent,
+  });
 }
 
 ///
-class VideoSearchResult {
-  /// 是否还有下一页
-  bool hasNext = false;
+class VideoQueryResult {
+  /// 下一页参数
+  String next = '';
 
   /// 数据
-  List<VideoSearchItem> items = [];
+  List<VideoQueryItem> items = [];
 
   ///
-  VideoSearchResult({
-    this.hasNext = false,
-    this.items = const [],
-  });
+  VideoQueryResult({this.next = '', this.items = const []});
 
   ///
   Map<String, dynamic> toJson() => {
-        "hasNext": hasNext,
+        "next": next,
         "items": items,
       };
 }
 
 ///
-class VideoSearchItem {
+class VideoQueryItem {
   /// 平台
   String platform = '';
 
@@ -69,8 +56,14 @@ class VideoSearchItem {
   /// 视频网站
   String link = '';
 
+  ///
+  String pid = '';
+
   /// id
   String cid = '';
+
+  /// 横版封面
+  String coverHz = '';
 
   /// 竖版封面
   String coverVt = '';
@@ -81,11 +74,14 @@ class VideoSearchItem {
   /// 副标题
   String subTitle = '';
 
-  /// 描述
-  String info = '';
+  /// 时长
+  String timeLong = '';
 
   /// 年份
   String year = '';
+
+  /// 分类
+  String genre = '';
 
   /// 语言
   String language = '';
@@ -97,16 +93,19 @@ class VideoSearchItem {
   String actors = '';
 
   ///
-  VideoSearchItem({
+  VideoQueryItem({
     this.platform = '',
     this.channel = '',
     this.link = '',
+    this.pid = '',
     this.cid = '',
+    this.coverHz = '',
     this.coverVt = '',
     this.title = '',
     this.subTitle = '',
-    this.info = '',
+    this.timeLong = '',
     this.year = '',
+    this.genre = '',
     this.language = '',
     this.area = '',
     this.actors = '',
@@ -117,12 +116,15 @@ class VideoSearchItem {
         "platform": platform,
         "channel": channel,
         "link": link,
+        "pid": pid,
         "cid": cid,
+        "coverHz": coverHz,
         "coverVt": coverVt,
         "title": title,
         "subTitle": subTitle,
-        "info": info,
+        "timeLong": timeLong,
         "year": year,
+        "genre": genre,
         "language": language,
         "area": area,
         "actors": actors,

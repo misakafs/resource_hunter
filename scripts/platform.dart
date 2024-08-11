@@ -60,11 +60,19 @@ void _decode() {
 
   final pc = _readConfig(_platformConfigPath);
   for (var i = 0; i < pc.platforms!.length; i++) {
-    pc.platforms![i].key = Utils.base64decode(pc.platforms![i].key!);
     pc.platforms![i].name = Utils.base64decode(pc.platforms![i].name!);
+    pc.platforms![i].label = Utils.base64decode(pc.platforms![i].label!);
     pc.platforms![i].site = Utils.base64decode(pc.platforms![i].site!);
 
-    pc.platforms![i].queryer = Utils.base64decode(pc.platforms![i].queryer!);
+    pc.platforms![i].tabs = pc.platforms![i].tabs
+        ?.map((value) => Tab(
+              name: Utils.base64decode(value.name ?? ''),
+              label: Utils.base64decode(value.label ?? ''),
+            ))
+        .toList();
+
+    pc.platforms![i].viewer = Utils.base64decode(pc.platforms![i].viewer!);
+    pc.platforms![i].querier = Utils.base64decode(pc.platforms![i].querier!);
     pc.platforms![i].searcher = Utils.base64decode(pc.platforms![i].searcher!);
     pc.platforms![i].parser = Utils.base64decode(pc.platforms![i].parser!);
   }
@@ -90,11 +98,19 @@ void _encode() {
   pc.version = DateTime.now().millisecondsSinceEpoch.toString();
 
   for (var i = 0; i < pc.platforms!.length; i++) {
-    pc.platforms![i].key = Utils.base64encode(pc.platforms![i].key!);
     pc.platforms![i].name = Utils.base64encode(pc.platforms![i].name!);
+    pc.platforms![i].label = Utils.base64encode(pc.platforms![i].label!);
     pc.platforms![i].site = Utils.base64encode(pc.platforms![i].site!);
 
-    pc.platforms![i].queryer = Utils.base64encode(pc.platforms![i].queryer!);
+    pc.platforms![i].tabs = pc.platforms![i].tabs
+        ?.map((value) => Tab(
+              name: Utils.base64encode(value.name ?? ''),
+              label: Utils.base64encode(value.label ?? ''),
+            ))
+        .toList();
+
+    pc.platforms![i].viewer = Utils.base64encode(pc.platforms![i].viewer!);
+    pc.platforms![i].querier = Utils.base64encode(pc.platforms![i].querier!);
     pc.platforms![i].searcher = Utils.base64encode(pc.platforms![i].searcher!);
     pc.platforms![i].parser = Utils.base64encode(pc.platforms![i].parser!);
   }
@@ -121,24 +137,25 @@ void _create() {
       return;
     }
 
-    final name = Utils.base64decode(p.key!);
+    final name = Utils.base64decode(p.name!);
 
     platformNames.add('$name,');
 
     List<String> tabs = [];
 
     p.tabs?.forEach((t) {
-      tabs.add("VTab('${t.key}', '${t.name}'),");
+      tabs.add("VTab('${t.name}', '${t.label}'),");
     });
 
     platforms.add("""final $name = VPlatform(
-    '${p.key}',
     '${p.name}',
+    '${p.label}',
     '${p.site}',
     const [
       ${tabs.join('\n')}
     ],
-    '${p.queryer}',
+    '${p.viewer}',
+    '${p.querier}',
     '${p.searcher}',
     '${p.parser}',
   );""");
@@ -163,7 +180,12 @@ class _VideoPlatform {
   
   /// 根据link匹配对应的平台
   VPlatform? linkMatchPlatform(String link) {
-    return platforms.firstWhere((value) => link.contains('\${value.key}.com'));
+    return platforms.firstWhere((value) => link.contains('\${value.name}.com'));
+  }
+  
+  /// 根据平台名字匹配对应的平台
+  VPlatform? getPlatform(String platformName) {
+    return platforms.firstWhere((value) => value.name == platformName);
   }
 }""";
 
@@ -209,22 +231,24 @@ class PlatformConfig {
 }
 
 class Platform {
-  String? key;
   String? name;
+  String? label;
   bool? enable;
   String? site;
   List<Tab>? tabs;
-  String? queryer;
+  String? viewer;
+  String? querier;
   String? searcher;
   String? parser;
 
   Platform({
-    this.key,
     this.name,
+    this.label,
     this.enable,
     this.site,
     this.tabs,
-    this.queryer,
+    this.viewer,
+    this.querier,
     this.searcher,
     this.parser,
   });
@@ -238,12 +262,13 @@ class Platform {
       });
     }
     return Platform(
-      key: m['key'] as String,
       name: m['name'] as String,
+      label: m['label'] as String,
       enable: m['enable'] as bool,
       site: m['site'] as String,
       tabs: tabs,
-      queryer: m['queryer'] as String,
+      viewer: m['viewer'] as String,
+      querier: m['querier'] as String,
       searcher: m['searcher'] as String,
       parser: m['parser'] as String,
     );
@@ -251,14 +276,15 @@ class Platform {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
-    data['key'] = key;
     data['name'] = name;
+    data['label'] = label;
     data['enable'] = enable;
     data['site'] = site;
     if (tabs != null) {
       data['tabs'] = tabs!.map((v) => v.toJson()).toList();
     }
-    data['queryer'] = queryer;
+    data['viewer'] = viewer;
+    data['querier'] = querier;
     data['searcher'] = searcher;
     data['parser'] = parser;
     return data;
@@ -266,22 +292,22 @@ class Platform {
 }
 
 class Tab {
-  String? key;
-  String? name;
+  String? name = '';
+  String? label = '';
 
-  Tab({this.key, this.name});
+  Tab({this.name, this.label});
 
   factory Tab.fromYaml(Map<String, dynamic> m) {
     return Tab(
-      key: m['key'] as String,
       name: m['name'] as String,
+      label: m['label'] as String,
     );
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
-    data['key'] = key;
     data['name'] = name;
+    data['label'] = label;
     return data;
   }
 }
