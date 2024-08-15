@@ -1,3 +1,7 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'parser.g.dart';
+
 /// 解析接口
 abstract class VideoParser {
   ///
@@ -5,6 +9,7 @@ abstract class VideoParser {
 }
 
 /// 解析参数
+@JsonSerializable()
 class VideoParseParam {
   /// 平台name
   String platform;
@@ -19,14 +24,14 @@ class VideoParseParam {
   VideoParseParam(this.platform, this.link, [this.userAgent]);
 
   ///
-  Map<String, dynamic> toJson() => {
-        "platform": platform,
-        "link": link,
-        "userAgent": userAgent,
-      };
+  factory VideoParseParam.fromJson(Map<String, dynamic> json) => _$VideoParseParamFromJson(json);
+
+  ///
+  Map<String, dynamic> toJson() => _$VideoParseParamToJson(this);
 }
 
 /// 解析后的结果
+@JsonSerializable()
 class VideoParseResult {
   /// video platform
   String platform;
@@ -70,15 +75,8 @@ class VideoParseResult {
   });
 
   ///
-  Map<String, dynamic> toJson() => {
-        "platform": platform,
-        "pid": pid,
-        "title": title,
-        "info": info,
-        "link": link,
-        "cover": cover,
-        "url": url,
-        "disposable": disposable,
-        "status": status,
-      };
+  factory VideoParseResult.fromJson(Map<String, dynamic> json) => _$VideoParseResultFromJson(json);
+
+  ///
+  Map<String, dynamic> toJson() => _$VideoParseResultToJson(this);
 }

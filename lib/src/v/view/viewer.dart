@@ -1,3 +1,7 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'viewer.g.dart';
+
 /// 查看器接口
 abstract class VideoViewer {
   ///
@@ -5,6 +9,7 @@ abstract class VideoViewer {
 }
 
 ///
+@JsonSerializable()
 class VideoViewParam {
   /// 用户代理，
   String? userAgent;
@@ -27,15 +32,14 @@ class VideoViewParam {
   });
 
   ///
-  Map<String, dynamic> toJson() => {
-        "platform": platform,
-        "cid": cid,
-        "vid": vid,
-        "userAgent": userAgent,
-      };
+  factory VideoViewParam.fromJson(Map<String, dynamic> json) => _$VideoViewParamFromJson(json);
+
+  ///
+  Map<String, dynamic> toJson() => _$VideoViewParamToJson(this);
 }
 
 ///
+@JsonSerializable()
 class VideoViewResult {
   /// 数据
   List<VideoViewItem> items = [];
@@ -46,12 +50,14 @@ class VideoViewResult {
   });
 
   ///
-  Map<String, dynamic> toJson() => {
-        "items": items,
-      };
+  factory VideoViewResult.fromJson(Map<String, dynamic> json) => _$VideoViewResultFromJson(json);
+
+  ///
+  Map<String, dynamic> toJson() => _$VideoViewResultToJson(this);
 }
 
 ///
+@JsonSerializable()
 class VideoViewItem {
   /// 平台
   String platform = '';
@@ -86,13 +92,8 @@ class VideoViewItem {
   });
 
   ///
-  Map<String, dynamic> toJson() => {
-        "platform": platform,
-        "pid": pid,
-        "cid": cid,
-        "vid": vid,
-        "link": link,
-        "title": title,
-        "seq": seq,
-      };
+  factory VideoViewItem.fromJson(Map<String, dynamic> json) => _$VideoViewItemFromJson(json);
+
+  ///
+  Map<String, dynamic> toJson() => _$VideoViewItemToJson(this);
 }

@@ -1,3 +1,7 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'querier.g.dart';
+
 /// 查询列表接口
 abstract class VideoQuerier {
   ///
@@ -5,6 +9,7 @@ abstract class VideoQuerier {
 }
 
 ///
+@JsonSerializable()
 class VideoQueryParam {
   /// 下一页参数 base64
   String next = '';
@@ -25,9 +30,16 @@ class VideoQueryParam {
     this.channel = '',
     this.userAgent,
   });
+
+  ///
+  factory VideoQueryParam.fromJson(Map<String, dynamic> json) => _$VideoQueryParamFromJson(json);
+
+  ///
+  Map<String, dynamic> toJson() => _$VideoQueryParamToJson(this);
 }
 
 ///
+@JsonSerializable()
 class VideoQueryResult {
   /// 下一页参数
   String next = '';
@@ -39,13 +51,14 @@ class VideoQueryResult {
   VideoQueryResult({this.next = '', this.items = const []});
 
   ///
-  Map<String, dynamic> toJson() => {
-        "next": next,
-        "items": items,
-      };
+  factory VideoQueryResult.fromJson(Map<String, dynamic> json) => _$VideoQueryResultFromJson(json);
+
+  ///
+  Map<String, dynamic> toJson() => _$VideoQueryResultToJson(this);
 }
 
 ///
+@JsonSerializable()
 class VideoQueryItem {
   /// 平台
   String platform = '';
@@ -112,21 +125,8 @@ class VideoQueryItem {
   });
 
   ///
-  Map<String, dynamic> toJson() => {
-        "platform": platform,
-        "channel": channel,
-        "link": link,
-        "pid": pid,
-        "cid": cid,
-        "coverHz": coverHz,
-        "coverVt": coverVt,
-        "title": title,
-        "subTitle": subTitle,
-        "timeLong": timeLong,
-        "year": year,
-        "genre": genre,
-        "language": language,
-        "area": area,
-        "actors": actors,
-      };
+  factory VideoQueryItem.fromJson(Map<String, dynamic> json) => _$VideoQueryItemFromJson(json);
+
+  ///
+  Map<String, dynamic> toJson() => _$VideoQueryItemToJson(this);
 }

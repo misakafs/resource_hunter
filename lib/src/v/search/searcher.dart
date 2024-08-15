@@ -1,3 +1,7 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'searcher.g.dart';
+
 /// 搜索列表接口
 abstract class VideoSearcher {
   ///
@@ -5,6 +9,7 @@ abstract class VideoSearcher {
 }
 
 ///
+@JsonSerializable()
 class VideoSearchParam {
   /// 每页条数
   int size = 10;
@@ -30,14 +35,14 @@ class VideoSearchParam {
   });
 
   ///
-  Map<String, dynamic> toJson() => {
-        "platform": platform,
-        "keyword": keyword,
-        "userAgent": userAgent,
-      };
+  factory VideoSearchParam.fromJson(Map<String, dynamic> json) => _$VideoSearchParamFromJson(json);
+
+  ///
+  Map<String, dynamic> toJson() => _$VideoSearchParamToJson(this);
 }
 
 ///
+@JsonSerializable()
 class VideoSearchResult {
   /// 是否还有下一页
   bool hasNext = false;
@@ -52,13 +57,14 @@ class VideoSearchResult {
   });
 
   ///
-  Map<String, dynamic> toJson() => {
-        "hasNext": hasNext,
-        "items": items,
-      };
+  factory VideoSearchResult.fromJson(Map<String, dynamic> json) => _$VideoSearchResultFromJson(json);
+
+  ///
+  Map<String, dynamic> toJson() => _$VideoSearchResultToJson(this);
 }
 
 ///
+@JsonSerializable()
 class VideoSearchItem {
   /// 平台
   String platform = '';
@@ -113,18 +119,8 @@ class VideoSearchItem {
   });
 
   ///
-  Map<String, dynamic> toJson() => {
-        "platform": platform,
-        "channel": channel,
-        "link": link,
-        "cid": cid,
-        "coverVt": coverVt,
-        "title": title,
-        "subTitle": subTitle,
-        "info": info,
-        "year": year,
-        "language": language,
-        "area": area,
-        "actors": actors,
-      };
+  factory VideoSearchItem.fromJson(Map<String, dynamic> json) => _$VideoSearchItemFromJson(json);
+
+  ///
+  Map<String, dynamic> toJson() => _$VideoSearchItemToJson(this);
 }
