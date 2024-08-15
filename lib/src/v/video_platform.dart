@@ -32,6 +32,7 @@ class VideoPlatform extends _VideoPlatform {
     if (p == null) {
       throw ResourceHunterException('暂不支持平台 ${param.platform}');
     }
+    param.userAgent ??= userAgent;
     return p.querier!.query(param);
   }
 
@@ -41,6 +42,7 @@ class VideoPlatform extends _VideoPlatform {
     if (p == null) {
       throw ResourceHunterException('暂不支持平台 ${param.platform}');
     }
+    param.userAgent ??= userAgent;
     return p.searcher!.search(param);
   }
 
@@ -53,6 +55,7 @@ class VideoPlatform extends _VideoPlatform {
     if (param.cid.isEmpty) {
       throw ResourceHunterException('参数cid不能为空');
     }
+    param.userAgent ??= userAgent;
     return p.viewer!.view(param);
   }
 }
