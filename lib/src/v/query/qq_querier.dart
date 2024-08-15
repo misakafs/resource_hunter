@@ -14,6 +14,8 @@ final _vUrl = Utils.base64decode('aHR0cHM6Ly92LnFxLmNvbS94L2NvdmVyLw==');
 
 final _nextPageContextJsonPath = JsonPath(r"$.data.next_page_context");
 
+final _hasNextPageContextJsonPath = JsonPath(r"$.data.has_next_page");
+
 final _itemsJsonPath = JsonPath(
   r"$.data.module_list_datas[-1].module_datas[0].item_data_lists.item_datas[?@.item_type == '2'].item_params",
 );
@@ -35,6 +37,8 @@ class QqVideoQuerier extends VideoQuerier {
     final resp = await _request(param);
 
     final next = Utils.base64encode(Utils.toJson(_nextPageContextJsonPath.readValues(resp).first));
+
+    final hasNextPage = (_hasNextPageContextJsonPath.readValues(resp).firstOrNull ?? true) as bool;
 
     List<VideoQueryItem> items = [];
 
@@ -76,7 +80,7 @@ class QqVideoQuerier extends VideoQuerier {
 
     return VideoQueryResult(
       next: next,
-      hasNextPage: items.isNotEmpty,
+      hasNextPage: hasNextPage && items.isNotEmpty,
       items: items,
     );
   }
