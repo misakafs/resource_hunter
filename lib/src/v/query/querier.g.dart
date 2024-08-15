@@ -25,6 +25,7 @@ Map<String, dynamic> _$VideoQueryParamToJson(VideoQueryParam instance) =>
 VideoQueryResult _$VideoQueryResultFromJson(Map<String, dynamic> json) =>
     VideoQueryResult(
       next: json['next'] as String? ?? '',
+      hasNextPage: json['hasNextPage'] as bool? ?? true,
       items: (json['items'] as List<dynamic>?)
               ?.map((e) => VideoQueryItem.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -34,6 +35,7 @@ VideoQueryResult _$VideoQueryResultFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$VideoQueryResultToJson(VideoQueryResult instance) =>
     <String, dynamic>{
       'next': instance.next,
+      'hasNextPage': instance.hasNextPage,
       'items': instance.items,
     };
 

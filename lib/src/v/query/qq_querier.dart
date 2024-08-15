@@ -34,8 +34,7 @@ class QqVideoQuerier extends VideoQuerier {
   Future<VideoQueryResult> query(VideoQueryParam param) async {
     final resp = await _request(param);
 
-    final next = Utils.base64encode(
-        Utils.toJson(_nextPageContextJsonPath.readValues(resp).first));
+    final next = Utils.base64encode(Utils.toJson(_nextPageContextJsonPath.readValues(resp).first));
 
     List<VideoQueryItem> items = [];
 
@@ -77,6 +76,7 @@ class QqVideoQuerier extends VideoQuerier {
 
     return VideoQueryResult(
       next: next,
+      hasNextPage: items.isNotEmpty,
       items: items,
     );
   }
@@ -105,8 +105,7 @@ class QqVideoQuerier extends VideoQuerier {
     try {
       return await Http.post(_api, headers: headers, body: body);
     } catch (e, stackTrace) {
-      throw ResourceHunterException(
-          '查询异常: ${param.platform} >> ${e.toString()}', stackTrace);
+      throw ResourceHunterException('查询异常: ${param.platform} >> ${e.toString()}', stackTrace);
     }
   }
 }

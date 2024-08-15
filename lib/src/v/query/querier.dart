@@ -44,11 +44,14 @@ class VideoQueryResult {
   /// 下一页参数
   String next = '';
 
+  /// 是否有下一页
+  bool hasNextPage = true;
+
   /// 数据
   List<VideoQueryItem> items = [];
 
   ///
-  VideoQueryResult({this.next = '', this.items = const []});
+  VideoQueryResult({this.next = '', this.hasNextPage = true, this.items = const []});
 
   ///
   factory VideoQueryResult.fromJson(Map<String, dynamic> json) => _$VideoQueryResultFromJson(json);
