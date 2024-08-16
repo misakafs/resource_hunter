@@ -14,8 +14,8 @@ class VPlatform {
   /// platform official website url
   final String site;
 
-  /// platform tabs
-  final List<VTab> tabs;
+  /// platform channels
+  final List<VChannel> channels;
 
   /// 查看器
   final VideoViewer? viewer;
@@ -34,7 +34,7 @@ class VPlatform {
     String name,
     String label,
     String site,
-    List<VTab> tabs,
+    List<VChannel> channels,
     String viewerName,
     String querierName,
     String searcherName,
@@ -45,8 +45,8 @@ class VPlatform {
     final searcher = videoSearchers[Utils.base64decode(searcherName)];
     final parser = videoParsers[Utils.base64decode(parserName)];
 
-    tabs = tabs
-        .map((value) => VTab(
+    channels = channels
+        .map((value) => VChannel(
               Utils.base64decode(value.name),
               Utils.base64decode(value.label),
             ))
@@ -56,7 +56,7 @@ class VPlatform {
       Utils.base64decode(name),
       Utils.base64decode(label),
       Utils.base64decode(site),
-      tabs,
+      channels,
       viewer,
       querier,
       searcher,
@@ -69,7 +69,7 @@ class VPlatform {
     this.name,
     this.label,
     this.site,
-    this.tabs,
+    this.channels,
     this.viewer,
     this.querier,
     this.searcher,
@@ -77,34 +77,20 @@ class VPlatform {
   );
 
   ///
-  List<String> get tabNames => tabs.map((value) => value.name).toList();
-
-  ///
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "label": label,
-        "site": site,
-        "tabs": tabs,
-      };
+  List<String> get channelNames => channels.map((value) => value.name).toList();
 }
 
 ///
-class VTab {
-  /// tab name
+class VChannel {
+  /// channel name
   final String name;
 
-  /// tab label
+  /// channel label
   final String label;
 
   ///
-  const VTab(
+  const VChannel(
     this.name,
     this.label,
   );
-
-  ///
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "label": label,
-      };
 }

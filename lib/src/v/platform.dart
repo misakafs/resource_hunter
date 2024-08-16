@@ -1,7 +1,7 @@
 /// 该文件是由脚本生成，不需要改动
 /// 生成脚本命令: dart run scripts/platform.dart create
-/// 生成时间: 2024-08-11 13:49:25.619788
-/// version: 1723355348339
+/// 生成时间: 2024-08-16 09:32:56.092950
+/// version: 1723771962328
 part of 'video_platform.dart';
 
 class _VideoPlatform {
@@ -10,9 +10,9 @@ class _VideoPlatform {
     '6IW+6K6v',
     'aHR0cHM6Ly92LnFxLmNvbQ==',
     const [
-      VTab('dHY=', '55S16KeG5Ymn'),
-      VTab('bW92aWU=', '55S15b2x'),
-      VTab('Y2FydG9vbg==', '5Yqo5ryr'),
+      VChannel('dHY=', '55S16KeG5Ymn'),
+      VChannel('bW92aWU=', '55S15b2x'),
+      VChannel('Y2FydG9vbg==', '5Yqo5ryr'),
     ],
     'cXE=',
     'cXE=',
@@ -25,9 +25,9 @@ class _VideoPlatform {
     '54ix5aWH6Im6',
     'aHR0cHM6Ly93d3cuaXFpeWkuY29t',
     const [
-      VTab('dHY=', '55S16KeG5Ymn'),
-      VTab('bW92aWU=', '55S15b2x'),
-      VTab('Y2FydG9vbg==', '5Yqo5ryr'),
+      VChannel('dHY=', '55S16KeG5Ymn'),
+      VChannel('bW92aWU=', '55S15b2x'),
+      VChannel('Y2FydG9vbg==', '5Yqo5ryr'),
     ],
     'aXFpeWk=',
     'aXFpeWk=',
@@ -40,9 +40,9 @@ class _VideoPlatform {
     '5LyY6YW3',
     'aHR0cHM6Ly95b3VrdS5jb20=',
     const [
-      VTab('dHY=', '55S16KeG5Ymn'),
-      VTab('bW92aWU=', '55S15b2x'),
-      VTab('Y2FydG9vbg==', '5Yqo5ryr'),
+      VChannel('dHY=', '55S16KeG5Ymn'),
+      VChannel('bW92aWU=', '55S15b2x'),
+      VChannel('Y2FydG9vbg==', '5Yqo5ryr'),
     ],
     'eW91a3U=',
     'eW91a3U=',
@@ -55,9 +55,9 @@ class _VideoPlatform {
     '6IqS5p6c',
     'aHR0cHM6Ly93d3cubWd0di5jb20=',
     const [
-      VTab('dHY=', '55S16KeG5Ymn'),
-      VTab('bW92aWU=', '55S15b2x'),
-      VTab('Y2FydG9vbg==', '5Yqo5ryr'),
+      VChannel('dHY=', '55S16KeG5Ymn'),
+      VChannel('bW92aWU=', '55S15b2x'),
+      VChannel('Y2FydG9vbg==', '5Yqo5ryr'),
     ],
     'bWd0dg==',
     'bWd0dg==',
@@ -70,8 +70,8 @@ class _VideoPlatform {
     'QuermQ==',
     'aHR0cHM6Ly93d3cuYmlsaWJpbGkuY29t',
     const [
-      VTab('dmlkZW8=', '5o6o6I2Q'),
-      VTab('YW5pbWU=', '55Wq5Ymn'),
+      VChannel('dmlkZW8=', '5o6o6I2Q'),
+      VChannel('YW5pbWU=', '55Wq5Ymn'),
     ],
     'YmlsaWJpbGk=',
     'YmlsaWJpbGk=',

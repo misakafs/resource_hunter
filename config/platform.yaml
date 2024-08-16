@@ -1,10 +1,10 @@
-version: '1723355348339'
+version: '1723771962328'
 platforms: 
   - name: 'cXE='
     label: '6IW+6K6v'
     enable: true
     site: 'aHR0cHM6Ly92LnFxLmNvbQ=='
-    tabs: 
+    channels: 
       - name: 'dHY='
         label: '55S16KeG5Ymn'
       - name: 'bW92aWU='
@@ -19,7 +19,7 @@ platforms:
     label: '54ix5aWH6Im6'
     enable: true
     site: 'aHR0cHM6Ly93d3cuaXFpeWkuY29t'
-    tabs: 
+    channels: 
       - name: 'dHY='
         label: '55S16KeG5Ymn'
       - name: 'bW92aWU='
@@ -34,7 +34,7 @@ platforms:
     label: '5LyY6YW3'
     enable: true
     site: 'aHR0cHM6Ly95b3VrdS5jb20='
-    tabs: 
+    channels: 
       - name: 'dHY='
         label: '55S16KeG5Ymn'
       - name: 'bW92aWU='
@@ -49,7 +49,7 @@ platforms:
     label: '6IqS5p6c'
     enable: true
     site: 'aHR0cHM6Ly93d3cubWd0di5jb20='
-    tabs: 
+    channels: 
       - name: 'dHY='
         label: '55S16KeG5Ymn'
       - name: 'bW92aWU='
@@ -64,7 +64,7 @@ platforms:
     label: 'QuermQ=='
     enable: true
     site: 'aHR0cHM6Ly93d3cuYmlsaWJpbGkuY29t'
-    tabs: 
+    channels: 
       - name: 'dmlkZW8='
         label: '5o6o6I2Q'
       - name: 'YW5pbWU='

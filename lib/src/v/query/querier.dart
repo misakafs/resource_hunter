@@ -14,6 +14,9 @@ class VideoQueryParam {
   /// 下一页参数 base64
   String next = '';
 
+  /// 每页条数
+  int size = 20;
+
   /// 平台
   String platform = '';
 
@@ -26,6 +29,7 @@ class VideoQueryParam {
   ///
   VideoQueryParam({
     this.next = '',
+    this.size = 20,
     this.platform = '',
     this.channel = '',
     this.userAgent,

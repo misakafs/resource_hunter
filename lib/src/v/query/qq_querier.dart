@@ -97,6 +97,7 @@ class QqVideoQuerier extends VideoQuerier {
       "page_params": {
         "channel_id": _channels[param.channel],
         "filter_params": "sort=75",
+        "page_size": "${[param.size]}",
         "page_type": "channel_operation",
         "page_id": "channel_list_second_page",
       },

@@ -9,6 +9,7 @@ part of 'querier.dart';
 VideoQueryParam _$VideoQueryParamFromJson(Map<String, dynamic> json) =>
     VideoQueryParam(
       next: json['next'] as String? ?? '',
+      size: (json['size'] as num?)?.toInt() ?? 20,
       platform: json['platform'] as String? ?? '',
       channel: json['channel'] as String? ?? '',
       userAgent: json['userAgent'] as String?,
@@ -17,6 +18,7 @@ VideoQueryParam _$VideoQueryParamFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$VideoQueryParamToJson(VideoQueryParam instance) =>
     <String, dynamic>{
       'next': instance.next,
+      'size': instance.size,
       'platform': instance.platform,
       'channel': instance.channel,
       'userAgent': instance.userAgent,

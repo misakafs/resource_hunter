@@ -64,8 +64,8 @@ void _decode() {
     pc.platforms![i].label = Utils.base64decode(pc.platforms![i].label!);
     pc.platforms![i].site = Utils.base64decode(pc.platforms![i].site!);
 
-    pc.platforms![i].tabs = pc.platforms![i].tabs
-        ?.map((value) => Tab(
+    pc.platforms![i].channels = pc.platforms![i].channels
+        ?.map((value) => Channel(
               name: Utils.base64decode(value.name ?? ''),
               label: Utils.base64decode(value.label ?? ''),
             ))
@@ -102,8 +102,8 @@ void _encode() {
     pc.platforms![i].label = Utils.base64encode(pc.platforms![i].label!);
     pc.platforms![i].site = Utils.base64encode(pc.platforms![i].site!);
 
-    pc.platforms![i].tabs = pc.platforms![i].tabs
-        ?.map((value) => Tab(
+    pc.platforms![i].channels = pc.platforms![i].channels
+        ?.map((value) => Channel(
               name: Utils.base64encode(value.name ?? ''),
               label: Utils.base64encode(value.label ?? ''),
             ))
@@ -141,10 +141,10 @@ void _create() {
 
     platformNames.add('$name,');
 
-    List<String> tabs = [];
+    List<String> channels = [];
 
-    p.tabs?.forEach((t) {
-      tabs.add("VTab('${t.name}', '${t.label}'),");
+    p.channels?.forEach((t) {
+      channels.add("VChannel('${t.name}', '${t.label}'),");
     });
 
     platforms.add("""final $name = VPlatform(
@@ -152,7 +152,7 @@ void _create() {
     '${p.label}',
     '${p.site}',
     const [
-      ${tabs.join('\n')}
+      ${channels.join('\n')}
     ],
     '${p.viewer}',
     '${p.querier}',
@@ -235,7 +235,7 @@ class Platform {
   String? label;
   bool? enable;
   String? site;
-  List<Tab>? tabs;
+  List<Channel>? channels;
   String? viewer;
   String? querier;
   String? searcher;
@@ -246,7 +246,7 @@ class Platform {
     this.label,
     this.enable,
     this.site,
-    this.tabs,
+    this.channels,
     this.viewer,
     this.querier,
     this.searcher,
@@ -254,11 +254,11 @@ class Platform {
   });
 
   factory Platform.fromYaml(Map<String, dynamic> m) {
-    final List<Tab> tabs = [];
-    if (m['tabs'] != null) {
-      m['tabs'].forEach((v) {
+    final List<Channel> channels = [];
+    if (m['channels'] != null) {
+      m['channels'].forEach((v) {
         final Map<String, dynamic> mutableMap = Map.from(v);
-        tabs.add(Tab.fromYaml(mutableMap));
+        channels.add(Channel.fromYaml(mutableMap));
       });
     }
     return Platform(
@@ -266,7 +266,7 @@ class Platform {
       label: m['label'] as String,
       enable: m['enable'] as bool,
       site: m['site'] as String,
-      tabs: tabs,
+      channels: channels,
       viewer: m['viewer'] as String,
       querier: m['querier'] as String,
       searcher: m['searcher'] as String,
@@ -280,8 +280,8 @@ class Platform {
     data['label'] = label;
     data['enable'] = enable;
     data['site'] = site;
-    if (tabs != null) {
-      data['tabs'] = tabs!.map((v) => v.toJson()).toList();
+    if (channels != null) {
+      data['channels'] = channels!.map((v) => v.toJson()).toList();
     }
     data['viewer'] = viewer;
     data['querier'] = querier;
@@ -291,14 +291,14 @@ class Platform {
   }
 }
 
-class Tab {
+class Channel {
   String? name = '';
   String? label = '';
 
-  Tab({this.name, this.label});
+  Channel({this.name, this.label});
 
-  factory Tab.fromYaml(Map<String, dynamic> m) {
-    return Tab(
+  factory Channel.fromYaml(Map<String, dynamic> m) {
+    return Channel(
       name: m['name'] as String,
       label: m['label'] as String,
     );
