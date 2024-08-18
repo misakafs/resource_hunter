@@ -19,8 +19,8 @@ final _itemsJsonPath = JsonPath(
 ///
 class QqViewer extends VideoViewer {
   @override
-  Future<VideoViewResult> view(VideoViewParam param) async {
-    final resp = await _request(param);
+  Future<VideoViewResponse> view(VideoViewRequest req) async {
+    final resp = await _request(req);
 
     List<VideoViewItem> items = [];
 
@@ -38,10 +38,10 @@ class QqViewer extends VideoViewer {
       final vid = m.getString('vid');
 
       final link = '$_prefix$cid/$vid.html';
-      final pid = VTool.getPid(param.platform, link);
+      final pid = VTool.getPid(req.platform, link);
 
       items.add(VideoViewItem(
-        platform: param.platform,
+        platform: req.platform,
         pid: pid,
         cid: cid,
         vid: vid,
@@ -53,18 +53,18 @@ class QqViewer extends VideoViewer {
       i += 1;
     });
 
-    return VideoViewResult(
+    return VideoViewResponse(
       items: items,
     );
   }
 
-  Future<Map<String, dynamic>?> _request(VideoViewParam param) async {
+  Future<Map<String, dynamic>?> _request(VideoViewRequest req) async {
     final headers = {
       'origin': _origin,
       'referer': _origin,
       'content-type': 'application/json',
       'accept': 'application/json',
-      'user-agent': param.userAgent ?? RandomUserAgents.random(),
+      'user-agent': req.userAgent ?? RandomUserAgents.random(),
     };
     final Map<String, dynamic> body = {
       "page_params": {
@@ -73,8 +73,8 @@ class QqViewer extends VideoViewer {
         "page_type": "detail_operation",
         "id_type": "1",
         "page_size": "",
-        "cid": param.cid,
-        "vid": param.vid,
+        "cid": req.cid,
+        "vid": req.vid,
         "lid": "",
         "page_num": "",
         "page_context": "",
@@ -86,8 +86,7 @@ class QqViewer extends VideoViewer {
     try {
       return await Http.post(_api, headers: headers, body: body);
     } catch (e, stackTrace) {
-      throw ResourceHunterException(
-          '查看异常: ${param.platform} >> ${e.toString()}', stackTrace);
+      throw ResourceHunterException('查看异常: ${req.platform} >> ${e.toString()}', stackTrace);
     }
   }
 }

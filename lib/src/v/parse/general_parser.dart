@@ -9,27 +9,25 @@ import 'package:resource_hunter/src/v/v_tool.dart';
 
 /// 编码，防止被直接搜索
 final _iv = Utils.base64decode("M2NjY2Y4ODE4MTQwOGYxOQ==");
-final _api =
-    Utils.base64decode("aHR0cHM6Ly8xMjIuMjI4LjguMjk6NDQzMy94bWZsdi5qcw==");
+final _api = Utils.base64decode("aHR0cHM6Ly8xMjIuMjI4LjguMjk6NDQzMy94bWZsdi5qcw==");
 final _origin = Utils.base64decode("aHR0cHM6Ly9qeC54bWZsdi5jb20=");
 
-final _cache =
-    Utils.base64decode("aHR0cHM6Ly8xMjIuMjI4LjguMjk6NDQzMy9DYWNoZQ==");
+final _cache = Utils.base64decode("aHR0cHM6Ly8xMjIuMjI4LjguMjk6NDQzMy9DYWNoZQ==");
 
 /// 通用解析器
 class GeneralParser implements VideoParser {
   @override
-  Future<VideoParseResult> parse(VideoParseParam param) async {
-    final pid = VTool.getPid(param.platform, param.link);
+  Future<VideoParseResponse> parse(VideoParseRequest req) async {
+    final pid = VTool.getPid(req.platform, req.link);
 
-    final result = VideoParseResult(
-      platform: param.platform,
+    final result = VideoParseResponse(
+      platform: req.platform,
       pid: pid,
-      link: param.link,
+      link: req.link,
     );
 
     /// request
-    final resp = await _request(param, param.link);
+    final resp = await _request(req, req.link);
     if (resp == null) {
       return result;
     }
@@ -46,14 +44,8 @@ class GeneralParser implements VideoParser {
 
       result.cover = doc.querySelector('.cover img')?.attributes['src'] ?? '';
 
-      result.title =
-          doc.querySelector('.anthology-title-wrap .title')?.text.trim() ?? '';
-      result.info = doc
-              .querySelector('.title-info')
-              ?.text
-              .replaceAll(RegExp(r'\s+'), '')
-              .toString() ??
-          '';
+      result.title = doc.querySelector('.anthology-title-wrap .title')?.text.trim() ?? '';
+      result.info = doc.querySelector('.title-info')?.text.replaceAll(RegExp(r'\s+'), '').toString() ?? '';
     }
 
     result.url = url;
@@ -69,8 +61,7 @@ class GeneralParser implements VideoParser {
     return Utils.aesEncode(a, key, _iv);
   }
 
-  Future<Map<String, dynamic>?> _request(
-      VideoParseParam param, String link) async {
+  Future<Map<String, dynamic>?> _request(VideoParseRequest req, String link) async {
     final t = DateTime.now().millisecondsSinceEpoch;
     final sign = _getSign(t, link);
     final url = Utils.urlEncodeComponent(link);
@@ -80,7 +71,7 @@ class GeneralParser implements VideoParser {
     final headers = {
       'accept': 'application/json, text/javascript, */*; q=0.01',
       'Origin': _origin,
-      'User-Agent': param.userAgent ?? RandomUserAgents.random(),
+      'User-Agent': req.userAgent ?? RandomUserAgents.random(),
       'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
     };
 
@@ -92,8 +83,7 @@ class GeneralParser implements VideoParser {
       );
       return response;
     } catch (e, stackTrace) {
-      throw ResourceHunterException(
-          '解析失败: $link >> ${e.toString()}', stackTrace);
+      throw ResourceHunterException('解析失败: $link >> ${e.toString()}', stackTrace);
     }
   }
 }

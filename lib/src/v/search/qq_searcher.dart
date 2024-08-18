@@ -23,8 +23,8 @@ final _itemsJsonPath = JsonPath(
 ///
 class QqSearcher extends VideoSearcher {
   @override
-  Future<VideoSearchResult> search(VideoSearchParam param) async {
-    final resp = await _request(param);
+  Future<VideoSearchResponse> search(VideoSearchRequest req) async {
+    final resp = await _request(req);
 
     final total = _totalJsonPath.readValues(resp).first as int;
 
@@ -47,15 +47,12 @@ class QqSearcher extends VideoSearcher {
       final year = m.getString('year');
       final cid = link.substring(25, link.length - 5);
 
-      final actors =
-          m.getList('actors').map((value) => value.toString()).join(' ');
-      final language =
-          m.getList('language').map((value) => value.toString()).firstOrNull ??
-              '';
+      final actors = m.getList('actors').map((value) => value.toString()).join(' ');
+      final language = m.getList('language').map((value) => value.toString()).firstOrNull ?? '';
       final area = m.getString('area');
 
       items.add(VideoSearchItem(
-        platform: param.platform,
+        platform: req.platform,
         channel: channel,
         link: link,
         title: title,
@@ -70,33 +67,32 @@ class QqSearcher extends VideoSearcher {
       ));
     });
 
-    return VideoSearchResult(
-      hasNext: total > param.current,
+    return VideoSearchResponse(
+      hasNext: total > req.current,
       items: items,
     );
   }
 
-  Future<Map<String, dynamic>?> _request(VideoSearchParam param) async {
+  Future<Map<String, dynamic>?> _request(VideoSearchRequest req) async {
     final headers = {
       'origin': _origin,
       'referer': _origin,
       'content-type': 'application/json',
       'accept': 'application/json',
-      'user-agent': param.userAgent ?? RandomUserAgents.random(),
+      'user-agent': req.userAgent ?? RandomUserAgents.random(),
     };
     final qs = {
-      'pageNum': param.current,
-      'pageSize': param.size,
-      'query': param.keyword,
+      'pageNum': req.current,
+      'pageSize': req.size,
+      'query': req.keyword,
       'pageContext':
-          'boxType=mainneed&intentId=MainNeed&query=${param.keyword}&session=groups%253Dip%2526groups%253Dquery_quality%2526groups%253Dvec_quality%2526module%253DMainNeed',
+          'boxType=mainneed&intentId=MainNeed&query=${req.keyword}&session=groups%253Dip%2526groups%253Dquery_quality%2526groups%253Dvec_quality%2526module%253DMainNeed',
     };
 
     try {
       return await Http.get(_api, headers: headers, queryParameters: qs);
     } catch (e, stackTrace) {
-      throw ResourceHunterException(
-          '搜索异常: ${param.platform} >> ${e.toString()}', stackTrace);
+      throw ResourceHunterException('搜索异常: ${req.platform} >> ${e.toString()}', stackTrace);
     }
   }
 }

@@ -5,12 +5,12 @@ part 'querier.g.dart';
 /// 查询列表接口
 abstract class VideoQuerier {
   ///
-  Future<VideoQueryResult> query(VideoQueryParam param);
+  Future<VideoQueryResponse> query(VideoQueryRequest req);
 }
 
 ///
 @JsonSerializable()
-class VideoQueryParam {
+class VideoQueryRequest {
   /// 下一页参数 base64
   String next = '';
 
@@ -27,7 +27,7 @@ class VideoQueryParam {
   String? userAgent;
 
   ///
-  VideoQueryParam({
+  VideoQueryRequest({
     this.next = '',
     this.size = 20,
     this.platform = '',
@@ -36,15 +36,15 @@ class VideoQueryParam {
   });
 
   ///
-  factory VideoQueryParam.fromJson(Map<String, dynamic> json) => _$VideoQueryParamFromJson(json);
+  factory VideoQueryRequest.fromJson(Map<String, dynamic> json) => _$VideoQueryRequestFromJson(json);
 
   ///
-  Map<String, dynamic> toJson() => _$VideoQueryParamToJson(this);
+  Map<String, dynamic> toJson() => _$VideoQueryRequestToJson(this);
 }
 
 ///
 @JsonSerializable()
-class VideoQueryResult {
+class VideoQueryResponse {
   /// 下一页参数
   String next = '';
 
@@ -55,13 +55,13 @@ class VideoQueryResult {
   List<VideoQueryItem> items = [];
 
   ///
-  VideoQueryResult({this.next = '', this.hasNextPage = true, this.items = const []});
+  VideoQueryResponse({this.next = '', this.hasNextPage = true, this.items = const []});
 
   ///
-  factory VideoQueryResult.fromJson(Map<String, dynamic> json) => _$VideoQueryResultFromJson(json);
+  factory VideoQueryResponse.fromJson(Map<String, dynamic> json) => _$VideoQueryResponseFromJson(json);
 
   ///
-  Map<String, dynamic> toJson() => _$VideoQueryResultToJson(this);
+  Map<String, dynamic> toJson() => _$VideoQueryResponseToJson(this);
 }
 
 ///

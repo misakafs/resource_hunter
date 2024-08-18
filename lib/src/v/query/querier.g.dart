@@ -6,8 +6,8 @@ part of 'querier.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-VideoQueryParam _$VideoQueryParamFromJson(Map<String, dynamic> json) =>
-    VideoQueryParam(
+VideoQueryRequest _$VideoQueryRequestFromJson(Map<String, dynamic> json) =>
+    VideoQueryRequest(
       next: json['next'] as String? ?? '',
       size: (json['size'] as num?)?.toInt() ?? 20,
       platform: json['platform'] as String? ?? '',
@@ -15,7 +15,7 @@ VideoQueryParam _$VideoQueryParamFromJson(Map<String, dynamic> json) =>
       userAgent: json['userAgent'] as String?,
     );
 
-Map<String, dynamic> _$VideoQueryParamToJson(VideoQueryParam instance) =>
+Map<String, dynamic> _$VideoQueryRequestToJson(VideoQueryRequest instance) =>
     <String, dynamic>{
       'next': instance.next,
       'size': instance.size,
@@ -24,8 +24,8 @@ Map<String, dynamic> _$VideoQueryParamToJson(VideoQueryParam instance) =>
       'userAgent': instance.userAgent,
     };
 
-VideoQueryResult _$VideoQueryResultFromJson(Map<String, dynamic> json) =>
-    VideoQueryResult(
+VideoQueryResponse _$VideoQueryResponseFromJson(Map<String, dynamic> json) =>
+    VideoQueryResponse(
       next: json['next'] as String? ?? '',
       hasNextPage: json['hasNextPage'] as bool? ?? true,
       items: (json['items'] as List<dynamic>?)
@@ -34,7 +34,7 @@ VideoQueryResult _$VideoQueryResultFromJson(Map<String, dynamic> json) =>
           const [],
     );
 
-Map<String, dynamic> _$VideoQueryResultToJson(VideoQueryResult instance) =>
+Map<String, dynamic> _$VideoQueryResponseToJson(VideoQueryResponse instance) =>
     <String, dynamic>{
       'next': instance.next,
       'hasNextPage': instance.hasNextPage,

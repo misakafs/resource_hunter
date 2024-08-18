@@ -18,16 +18,16 @@ class VideoPlatform extends _VideoPlatform {
   });
 
   /// 解析链接
-  Future<VideoParseResult> parse(String link) async {
+  Future<VideoParseResponse> parse(String link) async {
     final p = linkMatchPlatform(link);
     if (p == null) {
       throw ResourceHunterException('暂不支持解析 $link');
     }
-    return p.parser!.parse(VideoParseParam(p.name, link, userAgent));
+    return p.parser!.parse(VideoParseRequest(p.name, link, userAgent));
   }
 
   /// 按条件分页查询
-  Future<VideoQueryResult> query(VideoQueryParam param) async {
+  Future<VideoQueryResponse> query(VideoQueryRequest param) async {
     final p = getPlatform(param.platform);
     if (p == null) {
       throw ResourceHunterException('暂不支持平台 ${param.platform}');
@@ -37,7 +37,7 @@ class VideoPlatform extends _VideoPlatform {
   }
 
   /// 按条件搜索
-  Future<VideoSearchResult> search(VideoSearchParam param) async {
+  Future<VideoSearchResponse> search(VideoSearchRequest param) async {
     final p = getPlatform(param.platform);
     if (p == null) {
       throw ResourceHunterException('暂不支持平台 ${param.platform}');
@@ -47,7 +47,7 @@ class VideoPlatform extends _VideoPlatform {
   }
 
   /// 查询单条记录
-  Future<VideoViewResult> view(VideoViewParam param) async {
+  Future<VideoViewResponse> view(VideoViewRequest param) async {
     final p = getPlatform(param.platform);
     if (p == null) {
       throw ResourceHunterException('暂不支持平台 ${param.platform}');

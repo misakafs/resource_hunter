@@ -6,15 +6,15 @@ part of 'viewer.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-VideoViewParam _$VideoViewParamFromJson(Map<String, dynamic> json) =>
-    VideoViewParam(
+VideoViewRequest _$VideoViewRequestFromJson(Map<String, dynamic> json) =>
+    VideoViewRequest(
       platform: json['platform'] as String? ?? '',
       cid: json['cid'] as String? ?? '',
       vid: json['vid'] as String? ?? '',
       userAgent: json['userAgent'] as String?,
     );
 
-Map<String, dynamic> _$VideoViewParamToJson(VideoViewParam instance) =>
+Map<String, dynamic> _$VideoViewRequestToJson(VideoViewRequest instance) =>
     <String, dynamic>{
       'userAgent': instance.userAgent,
       'platform': instance.platform,
@@ -22,15 +22,15 @@ Map<String, dynamic> _$VideoViewParamToJson(VideoViewParam instance) =>
       'vid': instance.vid,
     };
 
-VideoViewResult _$VideoViewResultFromJson(Map<String, dynamic> json) =>
-    VideoViewResult(
+VideoViewResponse _$VideoViewResponseFromJson(Map<String, dynamic> json) =>
+    VideoViewResponse(
       items: (json['items'] as List<dynamic>?)
               ?.map((e) => VideoViewItem.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
     );
 
-Map<String, dynamic> _$VideoViewResultToJson(VideoViewResult instance) =>
+Map<String, dynamic> _$VideoViewResponseToJson(VideoViewResponse instance) =>
     <String, dynamic>{
       'items': instance.items,
     };

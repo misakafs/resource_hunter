@@ -5,12 +5,12 @@ part 'searcher.g.dart';
 /// 搜索列表接口
 abstract class VideoSearcher {
   ///
-  Future<VideoSearchResult> search(VideoSearchParam param);
+  Future<VideoSearchResponse> search(VideoSearchRequest req);
 }
 
 ///
 @JsonSerializable()
-class VideoSearchParam {
+class VideoSearchRequest {
   /// 每页条数
   int size = 10;
 
@@ -27,7 +27,7 @@ class VideoSearchParam {
   String? userAgent;
 
   /// VideoSearchParam
-  VideoSearchParam({
+  VideoSearchRequest({
     this.current = 0,
     this.platform = '',
     this.keyword = '',
@@ -35,15 +35,15 @@ class VideoSearchParam {
   });
 
   ///
-  factory VideoSearchParam.fromJson(Map<String, dynamic> json) => _$VideoSearchParamFromJson(json);
+  factory VideoSearchRequest.fromJson(Map<String, dynamic> json) => _$VideoSearchRequestFromJson(json);
 
   ///
-  Map<String, dynamic> toJson() => _$VideoSearchParamToJson(this);
+  Map<String, dynamic> toJson() => _$VideoSearchRequestToJson(this);
 }
 
 ///
 @JsonSerializable()
-class VideoSearchResult {
+class VideoSearchResponse {
   /// 是否还有下一页
   bool hasNext = false;
 
@@ -51,16 +51,16 @@ class VideoSearchResult {
   List<VideoSearchItem> items = [];
 
   ///
-  VideoSearchResult({
+  VideoSearchResponse({
     this.hasNext = false,
     this.items = const [],
   });
 
   ///
-  factory VideoSearchResult.fromJson(Map<String, dynamic> json) => _$VideoSearchResultFromJson(json);
+  factory VideoSearchResponse.fromJson(Map<String, dynamic> json) => _$VideoSearchResponseFromJson(json);
 
   ///
-  Map<String, dynamic> toJson() => _$VideoSearchResultToJson(this);
+  Map<String, dynamic> toJson() => _$VideoSearchResponseToJson(this);
 }
 
 ///

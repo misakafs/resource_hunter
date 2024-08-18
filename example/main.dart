@@ -5,7 +5,7 @@ void main() async {
 
   final v = VideoPlatform();
 
-  final r = await v.query(VideoQueryParam(
+  final r = await v.query(VideoQueryRequest(
     platform: v.qq.name,
     channel: '100113',
   ));

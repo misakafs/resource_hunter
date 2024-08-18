@@ -5,12 +5,12 @@ part 'viewer.g.dart';
 /// 查看器接口
 abstract class VideoViewer {
   ///
-  Future<VideoViewResult> view(VideoViewParam param);
+  Future<VideoViewResponse> view(VideoViewRequest req);
 }
 
 ///
 @JsonSerializable()
-class VideoViewParam {
+class VideoViewRequest {
   /// 用户代理，
   String? userAgent;
 
@@ -24,7 +24,7 @@ class VideoViewParam {
   String vid = '';
 
   ///
-  VideoViewParam({
+  VideoViewRequest({
     this.platform = '',
     this.cid = '',
     this.vid = '',
@@ -32,28 +32,28 @@ class VideoViewParam {
   });
 
   ///
-  factory VideoViewParam.fromJson(Map<String, dynamic> json) => _$VideoViewParamFromJson(json);
+  factory VideoViewRequest.fromJson(Map<String, dynamic> json) => _$VideoViewRequestFromJson(json);
 
   ///
-  Map<String, dynamic> toJson() => _$VideoViewParamToJson(this);
+  Map<String, dynamic> toJson() => _$VideoViewRequestToJson(this);
 }
 
 ///
 @JsonSerializable()
-class VideoViewResult {
+class VideoViewResponse {
   /// 数据
   List<VideoViewItem> items = [];
 
   ///
-  VideoViewResult({
+  VideoViewResponse({
     this.items = const [],
   });
 
   ///
-  factory VideoViewResult.fromJson(Map<String, dynamic> json) => _$VideoViewResultFromJson(json);
+  factory VideoViewResponse.fromJson(Map<String, dynamic> json) => _$VideoViewResponseFromJson(json);
 
   ///
-  Map<String, dynamic> toJson() => _$VideoViewResultToJson(this);
+  Map<String, dynamic> toJson() => _$VideoViewResponseToJson(this);
 }
 
 ///

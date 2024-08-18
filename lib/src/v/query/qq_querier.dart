@@ -33,8 +33,8 @@ final _channels = {
 ///
 class QqVideoQuerier extends VideoQuerier {
   @override
-  Future<VideoQueryResult> query(VideoQueryParam param) async {
-    final resp = await _request(param);
+  Future<VideoQueryResponse> query(VideoQueryRequest req) async {
+    final resp = await _request(req);
 
     final next = Utils.base64encode(Utils.toJson(_nextPageContextJsonPath.readValues(resp).first));
 
@@ -47,7 +47,7 @@ class QqVideoQuerier extends VideoQuerier {
 
       final cid = m.getString('cid');
       final link = '$_vUrl$cid.html';
-      final pid = VTool.getPid(param.platform, link);
+      final pid = VTool.getPid(req.platform, link);
       final coverHz = m.getString('new_pic_hz');
       final coverVt = m.getString('new_pic_vt');
       final title = m.getString('title');
@@ -60,8 +60,8 @@ class QqVideoQuerier extends VideoQuerier {
       final actors = m.getString('sub_title');
 
       items.add(VideoQueryItem(
-        platform: param.platform,
-        channel: param.channel,
+        platform: req.platform,
+        channel: req.channel,
         link: link,
         pid: pid,
         cid: cid,
@@ -78,39 +78,39 @@ class QqVideoQuerier extends VideoQuerier {
       ));
     });
 
-    return VideoQueryResult(
+    return VideoQueryResponse(
       next: next,
       hasNextPage: hasNextPage && items.isNotEmpty,
       items: items,
     );
   }
 
-  Future<Map<String, dynamic>?> _request(VideoQueryParam param) async {
+  Future<Map<String, dynamic>?> _request(VideoQueryRequest req) async {
     final headers = {
       'origin': _origin,
       'referer': _origin,
       'content-type': 'application/json',
       'accept': 'application/json',
-      'user-agent': param.userAgent ?? RandomUserAgents.random(),
+      'user-agent': req.userAgent ?? RandomUserAgents.random(),
     };
     final Map<String, dynamic> body = {
       "page_params": {
-        "channel_id": _channels[param.channel],
+        "channel_id": _channels[req.channel],
         "filter_params": "sort=75",
-        "page_size": "${param.size}",
+        "page_size": "${req.size}",
         "page_type": "channel_operation",
         "page_id": "channel_list_second_page",
       },
     };
-    if (param.next.isNotEmpty) {
-      final next = Utils.base64decode(param.next);
+    if (req.next.isNotEmpty) {
+      final next = Utils.base64decode(req.next);
       body["page_context"] = Utils.toObj(next);
     }
 
     try {
       return await Http.post(_api, headers: headers, body: body);
     } catch (e, stackTrace) {
-      throw ResourceHunterException('查询异常: ${param.platform} >> ${e.toString()}', stackTrace);
+      throw ResourceHunterException('查询异常: ${req.platform} >> ${e.toString()}', stackTrace);
     }
   }
 }

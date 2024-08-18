@@ -6,22 +6,22 @@ part of 'parser.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-VideoParseParam _$VideoParseParamFromJson(Map<String, dynamic> json) =>
-    VideoParseParam(
+VideoParseRequest _$VideoParseRequestFromJson(Map<String, dynamic> json) =>
+    VideoParseRequest(
       json['platform'] as String,
       json['link'] as String,
       json['userAgent'] as String?,
     );
 
-Map<String, dynamic> _$VideoParseParamToJson(VideoParseParam instance) =>
+Map<String, dynamic> _$VideoParseRequestToJson(VideoParseRequest instance) =>
     <String, dynamic>{
       'platform': instance.platform,
       'link': instance.link,
       'userAgent': instance.userAgent,
     };
 
-VideoParseResult _$VideoParseResultFromJson(Map<String, dynamic> json) =>
-    VideoParseResult(
+VideoParseResponse _$VideoParseResponseFromJson(Map<String, dynamic> json) =>
+    VideoParseResponse(
       platform: json['platform'] as String? ?? '',
       pid: json['pid'] as String? ?? '',
       title: json['title'] as String? ?? '',
@@ -33,7 +33,7 @@ VideoParseResult _$VideoParseResultFromJson(Map<String, dynamic> json) =>
       status: (json['status'] as num?)?.toInt() ?? 0,
     );
 
-Map<String, dynamic> _$VideoParseResultToJson(VideoParseResult instance) =>
+Map<String, dynamic> _$VideoParseResponseToJson(VideoParseResponse instance) =>
     <String, dynamic>{
       'platform': instance.platform,
       'pid': instance.pid,

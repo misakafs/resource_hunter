@@ -6,15 +6,15 @@ part of 'searcher.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-VideoSearchParam _$VideoSearchParamFromJson(Map<String, dynamic> json) =>
-    VideoSearchParam(
+VideoSearchRequest _$VideoSearchRequestFromJson(Map<String, dynamic> json) =>
+    VideoSearchRequest(
       current: (json['current'] as num?)?.toInt() ?? 0,
       platform: json['platform'] as String? ?? '',
       keyword: json['keyword'] as String? ?? '',
       userAgent: json['userAgent'] as String? ?? '',
     )..size = (json['size'] as num).toInt();
 
-Map<String, dynamic> _$VideoSearchParamToJson(VideoSearchParam instance) =>
+Map<String, dynamic> _$VideoSearchRequestToJson(VideoSearchRequest instance) =>
     <String, dynamic>{
       'size': instance.size,
       'current': instance.current,
@@ -23,8 +23,8 @@ Map<String, dynamic> _$VideoSearchParamToJson(VideoSearchParam instance) =>
       'userAgent': instance.userAgent,
     };
 
-VideoSearchResult _$VideoSearchResultFromJson(Map<String, dynamic> json) =>
-    VideoSearchResult(
+VideoSearchResponse _$VideoSearchResponseFromJson(Map<String, dynamic> json) =>
+    VideoSearchResponse(
       hasNext: json['hasNext'] as bool? ?? false,
       items: (json['items'] as List<dynamic>?)
               ?.map((e) => VideoSearchItem.fromJson(e as Map<String, dynamic>))
@@ -32,7 +32,8 @@ VideoSearchResult _$VideoSearchResultFromJson(Map<String, dynamic> json) =>
           const [],
     );
 
-Map<String, dynamic> _$VideoSearchResultToJson(VideoSearchResult instance) =>
+Map<String, dynamic> _$VideoSearchResponseToJson(
+        VideoSearchResponse instance) =>
     <String, dynamic>{
       'hasNext': instance.hasNext,
       'items': instance.items,
