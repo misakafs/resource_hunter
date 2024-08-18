@@ -12,7 +12,7 @@ abstract class VideoSearcher {
 @JsonSerializable()
 class VideoSearchRequest {
   /// 每页条数
-  int size = 10;
+  int size = 20;
 
   /// 当前页, 0 是第一页
   int current = 0;
@@ -29,6 +29,7 @@ class VideoSearchRequest {
   /// VideoSearchParam
   VideoSearchRequest({
     this.current = 0,
+    this.size = 20,
     this.platform = '',
     this.keyword = '',
     this.userAgent = '',
