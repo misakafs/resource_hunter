@@ -43,9 +43,18 @@ class QqVideoQuerier extends VideoQuerier {
     List<VideoQueryItem> items = [];
 
     _itemsJsonPath.read(resp).toList().forEach((v) {
+      if (v.value == null) {
+        return;
+      }
+
       final m = v.value as Map<String, dynamic>;
 
       final cid = m.getString('cid');
+
+      if (cid.isEmpty) {
+        return;
+      }
+
       final link = '$_vUrl$cid.html';
       final pid = VTool.getPid(req.platform, link);
       final coverHz = m.getString('new_pic_hz');

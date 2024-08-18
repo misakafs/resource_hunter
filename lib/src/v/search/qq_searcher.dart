@@ -20,6 +20,10 @@ final _itemsJsonPath = JsonPath(
   r"$.data.normalList.itemList..videoInfo",
 );
 
+final _itemsJsonPath2 = JsonPath(
+  r"$.data.areaBoxList[0].itemList..videoInfo",
+);
+
 ///
 class QqSearcher extends VideoSearcher {
   @override
@@ -31,45 +35,81 @@ class QqSearcher extends VideoSearcher {
     List<VideoSearchItem> items = [];
 
     _itemsJsonPath.read(resp).toList().forEach((v) {
-      final m = v.value as Map<String, dynamic>;
-
-      final subTitle = m.getString('subTitle');
-
-      if (subTitle == '来源·外站') {
+      if (v.value == null) {
         return;
       }
 
-      final channel = VTool.getChannelByName(m.getString('typeName'));
-      final title = m.getString('title');
-      final link = m.getString('url');
-      final info = m.getString('descrip');
-      final coverVt = m.getString('imgUrl');
-      final year = m.getString('year');
-      final cid = link.substring(25, link.length - 5);
+      final m = v.value as Map<String, dynamic>;
 
-      final actors = m.getList('actors').map((value) => value.toString()).join(' ');
-      final language = m.getList('language').map((value) => value.toString()).firstOrNull ?? '';
-      final area = m.getString('area');
-
-      items.add(VideoSearchItem(
-        platform: req.platform,
-        channel: channel,
-        link: link,
-        title: title,
-        subTitle: subTitle,
-        info: info,
-        coverVt: coverVt,
-        year: year,
-        cid: cid,
-        actors: actors,
-        language: language,
-        area: area,
-      ));
+      final item = _getVideoSearchItem(req, m);
+      if (item == null) {
+        return;
+      }
+      items.add(item);
     });
+
+    if (items.isEmpty) {
+      _itemsJsonPath2.read(resp).toList().forEach((v) {
+        if (v.value == null) {
+          return;
+        }
+
+        final m = v.value as Map<String, dynamic>;
+
+        final item = _getVideoSearchItem(req, m);
+
+        if (item == null) {
+          return;
+        }
+
+        items.add(item);
+      });
+    }
 
     return VideoSearchResponse(
       hasNext: total > req.current,
       items: items,
+    );
+  }
+
+  VideoSearchItem? _getVideoSearchItem(VideoSearchRequest req, Map<String, dynamic> m) {
+    final subTitle = m.getString('subTitle');
+
+    if (subTitle == '来源·外站') {
+      return null;
+    }
+    final link = m.getString('url');
+
+    if (link.isEmpty) {
+      return null;
+    }
+
+    final channel = VTool.getChannelByName(m.getString('typeName'));
+    final title = m.getString('title');
+
+    final info = m.getString('descrip');
+    final coverVt = m.getString('imgUrl');
+    final year = m.getString('year');
+
+    final cid = link.substring(25, link.length - 5);
+
+    final actors = m.getList('actors').map((value) => value.toString()).join(' ');
+    final language = m.getList('language').map((value) => value.toString()).firstOrNull ?? '';
+    final area = m.getString('area');
+
+    return VideoSearchItem(
+      platform: req.platform,
+      channel: channel,
+      link: link,
+      title: title,
+      subTitle: subTitle,
+      info: info,
+      coverVt: coverVt,
+      year: year,
+      cid: cid,
+      actors: actors,
+      language: language,
+      area: area,
     );
   }
 

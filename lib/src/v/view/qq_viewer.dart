@@ -26,6 +26,10 @@ class QqViewer extends VideoViewer {
 
     var i = 0;
     _itemsJsonPath.read(resp).toList().forEach((v) {
+      if (v.value == null) {
+        return;
+      }
+
       final m = v.value as Map<String, dynamic>;
 
       final title = m.getString('union_title');
@@ -35,6 +39,11 @@ class QqViewer extends VideoViewer {
       }
 
       final cid = m.getString('cid');
+
+      if (cid.isEmpty) {
+        return;
+      }
+
       final vid = m.getString('vid');
 
       final link = '$_prefix$cid/$vid.html';
