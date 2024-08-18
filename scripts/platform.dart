@@ -11,11 +11,11 @@ const _platformConfigPath = 'config/platform.yaml';
 const _decodePlatformConfigPath = 'dist/platform.yaml';
 
 /// 生成后的文件位置
-const _createPlatformPath = 'lib/src/v/platform.dart';
+const _createPlatformPath = 'lib/src/v/platforms.dart';
 
-/// 解码：dart run scripts/platform.dart decode
-/// 编码：dart run scripts/platform.dart encode
-/// 生成：dart run scripts/platform.dart create
+/// 解码：dart run scripts/platforms.dart decode
+/// 编码：dart run scripts/platforms.dart encode
+/// 生成：dart run scripts/platforms.dart create
 void main(List<String> arguments) {
   if (arguments.isEmpty) {
     throw '参数为空';
@@ -147,7 +147,9 @@ void _create() {
       channels.add("VChannel('${t.name}', '${t.label}'),");
     });
 
-    platforms.add("""final $name = VPlatform(
+    platforms.add("""
+///
+static final $name = VPlatform(
     '${p.name}',
     '${p.label}',
     '${p.site}',
@@ -161,30 +163,32 @@ void _create() {
   );""");
   });
 
-  final content = """/// 该文件是由脚本生成，不需要改动
-/// 生成脚本命令: dart run scripts/platform.dart create
+  final content = """import 'v_platform.dart';
+
+/// 该文件是由脚本生成，不需要改动
+/// 生成脚本命令: dart run scripts/platforms.dart create
 /// 生成时间: $now
 /// version: ${pc.version}
-part of 'video_platform.dart';
 
-class _VideoPlatform {
+/// 
+class VideoPlatforms {
   ${platforms.join('\n\n')}
 
   /// 获取所有支持的平台
-  List<VPlatform> get platforms => [
+  static List<VPlatform> get platforms => [
         ${platformNames.join('\n')}
       ];
 
   /// 获取所有平台的名字
-  List<String> get platformNames => platforms.map((value) => value.name).toList();
+  static List<String> get platformNames => platforms.map((value) => value.name).toList();
   
   /// 根据link匹配对应的平台
-  VPlatform? linkMatchPlatform(String link) {
+  static VPlatform? linkMatchPlatform(String link) {
     return platforms.firstWhere((value) => link.contains('\${value.name}.com'));
   }
   
   /// 根据平台名字匹配对应的平台
-  VPlatform? getPlatform(String platformName) {
+  static VPlatform? getPlatform(String platformName) {
     return platforms.firstWhere((value) => value.name == platformName);
   }
 }""";

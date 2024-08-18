@@ -1,11 +1,14 @@
-/// 该文件是由脚本生成，不需要改动
-/// 生成脚本命令: dart run scripts/platform.dart create
-/// 生成时间: 2024-08-16 09:32:56.092950
-/// version: 1723771962328
-part of 'video_platform.dart';
+import 'v_platform.dart';
 
-class _VideoPlatform {
-  final qq = VPlatform(
+/// 该文件是由脚本生成，不需要改动
+/// 生成脚本命令: dart run scripts/platforms.dart create
+/// 生成时间: 2024-08-18 13:54:04.984505
+/// version: 1723771962328
+
+///
+class VideoPlatforms {
+  ///
+  static final qq = VPlatform(
     'cXE=',
     '6IW+6K6v',
     'aHR0cHM6Ly92LnFxLmNvbQ==',
@@ -20,7 +23,8 @@ class _VideoPlatform {
     'Z2VuZXJhbA==',
   );
 
-  final iqiyi = VPlatform(
+  ///
+  static final iqiyi = VPlatform(
     'aXFpeWk=',
     '54ix5aWH6Im6',
     'aHR0cHM6Ly93d3cuaXFpeWkuY29t',
@@ -35,7 +39,8 @@ class _VideoPlatform {
     'Z2VuZXJhbA==',
   );
 
-  final youku = VPlatform(
+  ///
+  static final youku = VPlatform(
     'eW91a3U=',
     '5LyY6YW3',
     'aHR0cHM6Ly95b3VrdS5jb20=',
@@ -50,7 +55,8 @@ class _VideoPlatform {
     'Z2VuZXJhbA==',
   );
 
-  final mgtv = VPlatform(
+  ///
+  static final mgtv = VPlatform(
     'bWd0dg==',
     '6IqS5p6c',
     'aHR0cHM6Ly93d3cubWd0di5jb20=',
@@ -65,7 +71,8 @@ class _VideoPlatform {
     'Z2VuZXJhbA==',
   );
 
-  final bilibili = VPlatform(
+  ///
+  static final bilibili = VPlatform(
     'YmlsaWJpbGk=',
     'QuermQ==',
     'aHR0cHM6Ly93d3cuYmlsaWJpbGkuY29t',
@@ -80,7 +87,7 @@ class _VideoPlatform {
   );
 
   /// 获取所有支持的平台
-  List<VPlatform> get platforms => [
+  static List<VPlatform> get platforms => [
         qq,
         iqiyi,
         youku,
@@ -89,16 +96,16 @@ class _VideoPlatform {
       ];
 
   /// 获取所有平台的名字
-  List<String> get platformNames =>
+  static List<String> get platformNames =>
       platforms.map((value) => value.name).toList();
 
   /// 根据link匹配对应的平台
-  VPlatform? linkMatchPlatform(String link) {
+  static VPlatform? linkMatchPlatform(String link) {
     return platforms.firstWhere((value) => link.contains('${value.name}.com'));
   }
 
   /// 根据平台名字匹配对应的平台
-  VPlatform? getPlatform(String platformName) {
+  static VPlatform? getPlatform(String platformName) {
     return platforms.firstWhere((value) => value.name == platformName);
   }
 }

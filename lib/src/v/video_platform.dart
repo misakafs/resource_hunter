@@ -1,14 +1,12 @@
 import 'package:resource_hunter/src/utils/error.dart';
 import 'package:resource_hunter/src/v/parse/parser.dart';
+import 'package:resource_hunter/src/v/platforms.dart';
 import 'package:resource_hunter/src/v/query/querier.dart';
 import 'package:resource_hunter/src/v/search/searcher.dart';
-import 'package:resource_hunter/src/v/v_platform.dart';
 import 'package:resource_hunter/src/v/view/viewer.dart';
 
-part 'platform.dart';
-
-/// 视频平台合集
-class VideoPlatform extends _VideoPlatform {
+/// 视频平台统一处理
+class VideoPlatform {
   /// user agent
   final String? userAgent;
 
@@ -19,7 +17,7 @@ class VideoPlatform extends _VideoPlatform {
 
   /// 解析链接
   Future<VideoParseResponse> parse(String link) async {
-    final p = linkMatchPlatform(link);
+    final p = VideoPlatforms.linkMatchPlatform(link);
     if (p == null) {
       throw ResourceHunterException('暂不支持解析 $link');
     }
@@ -28,7 +26,7 @@ class VideoPlatform extends _VideoPlatform {
 
   /// 按条件分页查询
   Future<VideoQueryResponse> query(VideoQueryRequest param) async {
-    final p = getPlatform(param.platform);
+    final p = VideoPlatforms.getPlatform(param.platform);
     if (p == null) {
       throw ResourceHunterException('暂不支持平台 ${param.platform}');
     }
@@ -38,7 +36,7 @@ class VideoPlatform extends _VideoPlatform {
 
   /// 按条件搜索
   Future<VideoSearchResponse> search(VideoSearchRequest param) async {
-    final p = getPlatform(param.platform);
+    final p = VideoPlatforms.getPlatform(param.platform);
     if (p == null) {
       throw ResourceHunterException('暂不支持平台 ${param.platform}');
     }
@@ -48,7 +46,7 @@ class VideoPlatform extends _VideoPlatform {
 
   /// 查询单条记录
   Future<VideoViewResponse> view(VideoViewRequest param) async {
-    final p = getPlatform(param.platform);
+    final p = VideoPlatforms.getPlatform(param.platform);
     if (p == null) {
       throw ResourceHunterException('暂不支持平台 ${param.platform}');
     }
