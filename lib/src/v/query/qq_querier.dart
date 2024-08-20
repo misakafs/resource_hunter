@@ -36,7 +36,7 @@ class QqVideoQuerier extends VideoQuerier {
   Future<VideoQueryResponse> query(VideoQueryRequest req) async {
     final resp = await _request(req);
 
-    final next = Utils.base64encode(Utils.toJson(_nextPageContextJsonPath.readValues(resp).first));
+    final next = Utils.base64encode(Utils.toJsonString(_nextPageContextJsonPath.readValues(resp).first));
 
     final hasNextPage = (_hasNextPageContextJsonPath.readValues(resp).firstOrNull ?? true) as bool;
 

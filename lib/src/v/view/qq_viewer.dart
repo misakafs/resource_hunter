@@ -16,15 +16,23 @@ final _itemsJsonPath = JsonPath(
   r"$.data.module_list_datas[-1].module_datas[0].item_data_lists.item_datas..item_params",
 );
 
+final _nextPageContextJsonPath =
+    JsonPath(r"$.data.module_list_datas[-1].module_datas[0].module_params.next_page_context");
+
+final _hasNextPageContextJsonPath = JsonPath(r"$.data.module_list_datas[-1].module_datas[0].module_params.has_next");
+
 ///
 class QqViewer extends VideoViewer {
   @override
   Future<VideoViewResponse> view(VideoViewRequest req) async {
     final resp = await _request(req);
 
+    final next = Utils.base64encode(Utils.toJsonString(_nextPageContextJsonPath.readValues(resp).first));
+
+    final hasNextPage = (_hasNextPageContextJsonPath.readValues(resp).firstOrNull ?? 'false').toString() == 'true';
+
     List<VideoViewItem> items = [];
 
-    var i = 0;
     _itemsJsonPath.read(resp).toList().forEach((v) {
       if (v.value == null) {
         return;
@@ -44,6 +52,9 @@ class QqViewer extends VideoViewer {
         return;
       }
 
+      final subTitle = m.getString('video_subtitle');
+      final cover = m.getString('image_url');
+
       final vid = m.getString('vid');
 
       final link = '$_prefix$cid/$vid.html';
@@ -56,13 +67,14 @@ class QqViewer extends VideoViewer {
         vid: vid,
         link: link,
         title: title,
-        seq: i,
+        subTitle: subTitle,
+        cover: cover,
       ));
-
-      i += 1;
     });
 
     return VideoViewResponse(
+      next: next,
+      hasNextPage: hasNextPage,
       items: items,
     );
   }
@@ -75,19 +87,22 @@ class QqViewer extends VideoViewer {
       'accept': 'application/json',
       'user-agent': req.userAgent ?? RandomUserAgents.random(),
     };
+
+    var pageContext = '';
+
+    if (req.next.isNotEmpty) {
+      pageContext = Utils.base64decode(req.next);
+    }
+
     final Map<String, dynamic> body = {
       "page_params": {
         "req_from": "web_vsite",
         "page_id": "vsite_eco_episode_list",
         "page_type": "detail_operation",
         "id_type": "1",
-        "page_size": "",
         "cid": req.cid,
         "vid": req.vid,
-        "lid": "",
-        "page_num": "",
-        "page_context": "",
-        "detail_page_type": "1"
+        "page_context": pageContext,
       },
       "has_cache": 1
     };

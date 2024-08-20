@@ -9,10 +9,11 @@ part of 'searcher.dart';
 VideoSearchRequest _$VideoSearchRequestFromJson(Map<String, dynamic> json) =>
     VideoSearchRequest(
       current: (json['current'] as num?)?.toInt() ?? 0,
+      size: (json['size'] as num?)?.toInt() ?? 20,
       platform: json['platform'] as String? ?? '',
       keyword: json['keyword'] as String? ?? '',
       userAgent: json['userAgent'] as String? ?? '',
-    )..size = (json['size'] as num).toInt();
+    );
 
 Map<String, dynamic> _$VideoSearchRequestToJson(VideoSearchRequest instance) =>
     <String, dynamic>{

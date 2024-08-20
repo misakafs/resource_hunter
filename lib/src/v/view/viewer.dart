@@ -23,11 +23,15 @@ class VideoViewRequest {
   ///
   String vid = '';
 
+  /// 下一页参数 base64
+  String next = '';
+
   ///
   VideoViewRequest({
     this.platform = '',
     this.cid = '',
     this.vid = '',
+    this.next = '',
     this.userAgent,
   });
 
@@ -44,9 +48,17 @@ class VideoViewResponse {
   /// 数据
   List<VideoViewItem> items = [];
 
+  /// 下一页参数
+  String next = '';
+
+  /// 是否有下一页
+  bool hasNextPage = true;
+
   ///
   VideoViewResponse({
     this.items = const [],
+    this.next = '',
+    this.hasNextPage = true,
   });
 
   ///
@@ -74,11 +86,14 @@ class VideoViewItem {
   ///
   String link = '';
 
-  ///
+  /// 单集标题
   String title = '';
 
-  ///
-  int seq = 0;
+  /// 单集副标题
+  String subTitle = '';
+
+  /// 单集封面
+  String cover = '';
 
   ///
   VideoViewItem({
@@ -88,7 +103,8 @@ class VideoViewItem {
     this.vid = '',
     this.link = '',
     this.title = '',
-    this.seq = 0,
+    this.subTitle = '',
+    this.cover = '',
   });
 
   ///

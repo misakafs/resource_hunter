@@ -99,7 +99,7 @@ class Utils {
   }
 
   /// obj to json
-  static String toJson(dynamic obj) {
+  static String toJsonString(dynamic obj) {
     return const JsonEncoder().convert(obj);
   }
 }
